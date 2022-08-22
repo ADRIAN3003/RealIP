@@ -93,10 +93,10 @@ public class TCPShieldPacketHandler {
 			String extraData = null;
 			String[] payload = packet.getPayloadString().split("///");
 
-			
 			String hostname = payload[0];
 			String ipData = payload[1];
 			int timestamp = Integer.parseInt(payload[2]);
+			String signature = "";
 
 			String[] ipParts;
 			String host;
@@ -105,8 +105,8 @@ public class TCPShieldPacketHandler {
 			if (timestamp == 0 && GeyserUtils.GEYSER_SUPPORT_ENABLED) {
 				// Remap the altered layout
 				ipData = payload[0];
-				signature = payload[1];
-				hostname = "";
+				signature = "";
+				hostname = payload[3];
 
 				// This is annoying having to have this in both blocks but w/e
 				ipParts = ipData.split(":");
