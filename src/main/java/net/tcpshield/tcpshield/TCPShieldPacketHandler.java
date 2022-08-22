@@ -93,17 +93,10 @@ public class TCPShieldPacketHandler {
 			String extraData = null;
 			String[] payload = packet.getPayloadString().split("///");
 
-			if (payload.length != 4)
-				if (cidrValidator.validate(inetAddress))
-					return; // Allow connection with no processing
-				else
-					throw new InvalidPayloadException("length: " + payload.length + ", payload: " + Arrays.toString(payload) + ", raw payload: " + packet.getPayloadString());
-
-
+			
 			String hostname = payload[0];
 			String ipData = payload[1];
 			int timestamp = Integer.parseInt(payload[2]);
-			String signature = payload[3];
 
 			String[] ipParts;
 			String host;
@@ -113,7 +106,7 @@ public class TCPShieldPacketHandler {
 				// Remap the altered layout
 				ipData = payload[0];
 				signature = payload[1];
-				hostname = payload[3];
+				hostname = "";
 
 				// This is annoying having to have this in both blocks but w/e
 				ipParts = ipData.split(":");
