@@ -99,12 +99,6 @@ public class TCPShieldPacketHandler {
 				else
 					throw new InvalidPayloadException("length: " + payload.length + ", payload: " + Arrays.toString(payload) + ", raw payload: " + packet.getPayloadString());
 
-			int nullIndex;
-			if ((nullIndex = payload[3].indexOf('\0')) != -1) { // FML tagged payload
-				String originalData = payload[3];
-				payload[3] = originalData.substring(0, nullIndex);
-				extraData = originalData.substring(nullIndex);
-			}
 
 			String hostname = payload[0];
 			String ipData = payload[1];
@@ -137,10 +131,6 @@ public class TCPShieldPacketHandler {
 
 				if (!timestampValidator.validate(timestamp))
 					throw new TimestampValidationException(timestampValidator, timestamp);
-
-
-				if (!signatureValidator.validate(reconstructedPayload, signature))
-					throw new SignatureValidationException();
 			}
 
 			InetSocketAddress newIP = new InetSocketAddress(host, port);
